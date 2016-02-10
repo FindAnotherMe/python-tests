@@ -8,6 +8,7 @@ import os
 import six
 import sys
 import unittest
+import locale
 from subprocess import Popen, call, PIPE
 
 
@@ -86,8 +87,13 @@ class TestUnicode(unittest.TestCase):
         message = self.test_message
 
         if sys.version_info[0] > 2 or sys.version_info[1] >= 7:
-            # no issues with Python 2.7 and later
-            call(["echo", message], stdout=self.dev_null)
+            if locale.getdefaultlocale()[1] == 'utf-8':
+                # no issues with Python 2.7 and later when encoding is utf-8
+                call(["echo", message], stdout=self.dev_null)
+            else:
+                # but if the encoding is different an exception is raised
+                kwds = {"stdout": self.dev_null}
+                self.assertRaises(TypeError, call, ["echo", message], kwds)
         else:
             # unicode must be encoded in Python 2.6 and earlier
             kwds = {"stdout": self.dev_null}
