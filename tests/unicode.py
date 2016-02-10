@@ -15,7 +15,12 @@ from subprocess import Popen, call, PIPE
 class TestUnicode(unittest.TestCase):
     """Tests to demonstrate correct and incorrect unicode handling."""
 
-    test_message = u"汉语/漢語"
+    if sys.version_info[0] == 3 and sys.version_info[1] == 2:
+        # Python 3.2 doesn't accept u"" strings
+        test_message = "汉语/漢語"
+    else:
+        test_message = u"汉语/漢語"
+
     encoding = "utf-8"
     dev_null = open(os.devnull, "w")
 
