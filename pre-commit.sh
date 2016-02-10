@@ -9,9 +9,6 @@ shellcheck \
 echo "Running pep8."
 pep8 --config=pep8.conf .
 
-echo "Running pyflakes."
-pyflakes .
-
 echo "Checking files for trailing whitespace."
 
 grep ' $' \
