@@ -3,5 +3,5 @@
 
 for test in tests/*.py; do
   echo "Running ${test} ... "
-  "${test}" -v
+  python "${test}" -v
 done
